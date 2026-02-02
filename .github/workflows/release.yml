@@ -247,6 +247,9 @@ jobs:
     needs: release
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # Required for npm provenance (OIDC)
     steps:
       - uses: actions/checkout@v4
 
@@ -325,7 +328,7 @@ jobs:
           for dir in npm/darwin-arm64 npm/darwin-x64 npm/linux-x64 npm/linux-arm64 npm/win32-x64; do
             echo "Publishing $(basename $dir)..."
             cd "$dir"
-            npm publish --access public
+            npm publish --access public --provenance
             cd -
           done
 
@@ -334,7 +337,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           cd npm/tirith
-          npm publish --access public
+          npm publish --access public --provenance
 
   publish-scoop:
     name: Update Scoop Bucket
