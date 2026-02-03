@@ -115,6 +115,31 @@ pub enum Evidence {
     Text {
         detail: String,
     },
+    /// Detailed character analysis for homograph detection
+    HomoglyphAnalysis {
+        /// The raw input string
+        raw: String,
+        /// The ASCII/punycode escaped version
+        escaped: String,
+        /// Positions of suspicious characters (byte offset, char, description)
+        suspicious_chars: Vec<SuspiciousChar>,
+    },
+}
+
+/// A suspicious character with its position and details
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SuspiciousChar {
+    /// Byte offset in the string
+    pub offset: usize,
+    /// The suspicious character
+    #[serde(rename = "character")]
+    pub character: char,
+    /// Unicode codepoint (e.g., "U+0456")
+    pub codepoint: String,
+    /// Human description (e.g., "Cyrillic Small Letter Byelorussian-Ukrainian I")
+    pub description: String,
+    /// Hex bytes of this character
+    pub hex_bytes: String,
 }
 
 /// A single detection finding.

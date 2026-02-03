@@ -33,10 +33,11 @@ Exit codes are stable:
 
 ## JSON Output
 
-- `schema_version` is not yet emitted; it will be added before 1.0
+- `schema_version` is emitted in all JSON output (currently version 2)
 - JSON fields are additive only: new fields may appear in any release
 - Existing fields will not be removed or change type within a major version
 - The `findings` array structure is stable
+- Evidence types may be extended (e.g., `homoglyph_analysis` with detailed character info)
 
 ## Rule IDs
 
@@ -47,5 +48,6 @@ Exit codes are stable:
 
 ## Policy Format
 
-- `policy.yaml` (or `policy.yml`) format is additive: new keys may appear
+- Both `policy.yaml` and `policy.yml` extensions are accepted (`.yaml` preferred)
+- Policy format is additive: new keys may appear
 - Existing keys will not change semantics within a major version

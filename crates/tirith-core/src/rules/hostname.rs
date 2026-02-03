@@ -1,3 +1,4 @@
+use crate::homoglyph;
 use crate::parse::UrlLike;
 use crate::policy::Policy;
 use crate::verdict::{Evidence, Finding, RuleId, Severity};
@@ -33,6 +34,9 @@ pub fn check(url: &UrlLike, _policy: &Policy) -> Vec<Finding> {
 
 fn check_non_ascii_hostname(raw_host: &str, findings: &mut Vec<Finding>) {
     if raw_host.bytes().any(|b| b > 0x7F) {
+        // Generate detailed homoglyph analysis
+        let homoglyph_evidence = homoglyph::analyze_hostname(raw_host);
+
         findings.push(Finding {
             rule_id: RuleId::NonAsciiHostname,
             severity: Severity::High,
@@ -40,9 +44,7 @@ fn check_non_ascii_hostname(raw_host: &str, findings: &mut Vec<Finding>) {
             description: format!(
                 "Hostname '{raw_host}' contains non-ASCII characters which may be a homograph attack"
             ),
-            evidence: vec![Evidence::Url {
-                raw: raw_host.to_string(),
-            }],
+            evidence: vec![homoglyph_evidence],
         });
     }
 }

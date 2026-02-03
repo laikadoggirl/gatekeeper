@@ -7,6 +7,13 @@ if set -q _TIRITH_FISH_LOADED
 end
 set -g _TIRITH_FISH_LOADED 1
 
+# Save original key bindings function BEFORE defining our new one
+# This must happen before we define fish_user_key_bindings below,
+# otherwise we'd copy our own function and cause infinite recursion.
+if functions -q fish_user_key_bindings; and not functions -q _tirith_original_fish_user_key_bindings
+    functions -c fish_user_key_bindings _tirith_original_fish_user_key_bindings
+end
+
 function _tirith_check_command
     set -l cmd (commandline)
 
@@ -53,7 +60,7 @@ function _tirith_check_paste
 end
 
 function fish_user_key_bindings
-    # Preserve existing key bindings
+    # Call original user key bindings if they existed
     if functions -q _tirith_original_fish_user_key_bindings
         _tirith_original_fish_user_key_bindings
     end
@@ -62,11 +69,6 @@ function fish_user_key_bindings
     bind \r _tirith_check_command
     bind \n _tirith_check_command
 
-    # Paste interception (Ctrl+V only; right-click and middle-click paste are not intercepted)
+    # Paste interception (Ctrl+V only)
     bind \cv _tirith_check_paste
-end
-
-# Save original key bindings function if it exists
-if functions -q fish_user_key_bindings
-    functions -c fish_user_key_bindings _tirith_original_fish_user_key_bindings
 end

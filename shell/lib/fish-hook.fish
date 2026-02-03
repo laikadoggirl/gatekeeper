@@ -8,6 +8,8 @@ end
 set -g _TIRITH_FISH_LOADED 1
 
 # Save original key bindings function BEFORE defining our new one
+# This must happen before we define fish_user_key_bindings below,
+# otherwise we'd copy our own function and cause infinite recursion.
 if functions -q fish_user_key_bindings; and not functions -q _tirith_original_fish_user_key_bindings
     functions -c fish_user_key_bindings _tirith_original_fish_user_key_bindings
 end
@@ -36,6 +38,8 @@ function _tirith_check_command
     end
 end
 
+# NOTE: Only intercepts Ctrl+V paste. Right-click and middle-click paste
+# bypass this check — fish does not expose a hookable paste event.
 function _tirith_check_paste
     # Read clipboard content
     set -l pasted (fish_clipboard_paste 2>/dev/null)
@@ -56,7 +60,7 @@ function _tirith_check_paste
 end
 
 function fish_user_key_bindings
-    # Preserve existing key bindings
+    # Call original user key bindings if they existed
     if functions -q _tirith_original_fish_user_key_bindings
         _tirith_original_fish_user_key_bindings
     end
@@ -64,4 +68,7 @@ function fish_user_key_bindings
     # Override Enter
     bind \r _tirith_check_command
     bind \n _tirith_check_command
+
+    # Paste interception (Ctrl+V only)
+    bind \cv _tirith_check_paste
 end

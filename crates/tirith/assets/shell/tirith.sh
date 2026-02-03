@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 # tirith shell hook loader
-# Sources the appropriate hook based on the current shell.
-# Usage: eval "$(tirith init)" or source this file directly.
+# Loads the appropriate hook based on the current shell.
+# Usage: eval "$(tirith init)" or `. /path/to/tirith.sh`
 
 _tirith_detect_shell() {
   if [ -n "$ZSH_VERSION" ]; then
