@@ -21,17 +21,25 @@ _tirith_accept_line() {
     return
   fi
 
-  # Run tirith check. Binary prints warnings/blocks directly to stderr.
-  tirith check --shell posix -- "$buf"
+  # Run tirith check and capture output.
+  # In zle context, stderr doesn't display directly - we must capture and print.
+  local output
+  output=$(tirith check --shell posix -- "$buf" 2>&1)
   local rc=$?
 
   if [[ $rc -eq 1 ]]; then
-    # Block: clear the line
-    zle kill-whole-line
+    # Block: show the command that was blocked, print warning, clear line
+    print -r -- "$buf"
+    [[ -n "$output" ]] && print -r -- "$output"
+    BUFFER=""
     zle reset-prompt
+  elif [[ $rc -eq 2 ]]; then
+    # Warn: print warning then execute
+    print -r -- "$buf"
+    [[ -n "$output" ]] && print -r -- "$output"
+    zle _tirith_original_accept_line 2>/dev/null || zle .accept-line
   else
-    # Allow (0) or Warn (2): execute normally
-    # Warn message already printed to stderr by the binary
+    # Allow: execute normally
     zle _tirith_original_accept_line 2>/dev/null || zle .accept-line
   fi
 }
@@ -54,17 +62,22 @@ _tirith_bracketed_paste() {
   local pasted="${new_buffer:$old_cursor:$((${#new_buffer} - ${#old_buffer}))}"
 
   if [[ -n "$pasted" ]]; then
-    # Pipe pasted content to tirith paste
-    echo -n "$pasted" | tirith paste --shell posix
+    # Pipe pasted content to tirith paste and capture output
+    local output
+    output=$(echo -n "$pasted" | tirith paste --shell posix 2>&1)
     local rc=$?
 
     if [[ $rc -eq 1 ]]; then
-      # Block: revert the paste
+      # Block: revert the paste and show warning
       BUFFER="$old_buffer"
       CURSOR=$old_cursor
+      [[ -n "$output" ]] && print -r -- "$output"
       zle reset-prompt
+    elif [[ $rc -eq 2 ]]; then
+      # Warn: keep the paste but show warning
+      [[ -n "$output" ]] && print -r -- "$output"
     fi
-    # Allow (0) or Warn (2): keep the paste, warning already printed
+    # Allow (0): keep the paste silently
   fi
 }
 

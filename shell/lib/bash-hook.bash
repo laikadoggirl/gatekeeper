@@ -70,15 +70,26 @@ if [[ "$_TIRITH_BASH_MODE" == "enter" ]]; then
       return
     fi
 
-    # Run tirith check. Binary prints warnings/blocks directly to stderr.
-    tirith check --shell posix -- "$READLINE_LINE"
+    # Run tirith check and capture output.
+    # In bind -x context, stderr may not display properly.
+    local output
+    output=$(tirith check --shell posix -- "$READLINE_LINE" 2>&1)
     local rc=$?
 
     if [[ $rc -eq 1 ]]; then
-      # Block: clear the line
+      # Block: show the command that was blocked, print warning, clear line
+      printf '%s\n' "$READLINE_LINE"
+      [[ -n "$output" ]] && printf '%s\n' "$output"
       READLINE_LINE=""
       READLINE_POINT=0
-    else
+    elif [[ $rc -eq 2 ]]; then
+      # Warn: print warning then execute
+      printf '%s\n' "$READLINE_LINE"
+      [[ -n "$output" ]] && printf '%s\n' "$output"
+      # Fall through to execute
+    fi
+
+    if [[ $rc -ne 1 ]]; then
       # Allow (0) or Warn (2): execute the command
       local cmd="$READLINE_LINE"
       READLINE_LINE=""
@@ -127,13 +138,18 @@ if [[ "$_TIRITH_BASH_MODE" == "enter" ]]; then
     done
 
     if [[ -n "$pasted" ]]; then
-      # Check with tirith paste
-      printf '%s' "$pasted" | tirith paste --shell posix
+      # Check with tirith paste and capture output
+      local output
+      output=$(printf '%s' "$pasted" | tirith paste --shell posix 2>&1)
       local rc=$?
 
       if [[ $rc -eq 1 ]]; then
-        # Block: discard paste
+        # Block: show warning, discard paste
+        [[ -n "$output" ]] && printf '%s\n' "$output"
         return
+      elif [[ $rc -eq 2 ]]; then
+        # Warn: show warning, keep paste
+        [[ -n "$output" ]] && printf '%s\n' "$output"
       fi
     fi
 
