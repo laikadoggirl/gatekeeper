@@ -295,7 +295,7 @@ fn tier3_reached_for_curl() {
     );
 }
 
-// ─── TIRITH=0 bypass ───
+// ─── GATEKEEPER=0 bypass ───
 
 #[test]
 fn bypass_in_interactive_mode() {

@@ -154,7 +154,7 @@ Bypass for the rare case you know exactly what you're doing:
 GATEKEEPER=0 curl -L https://something.xyz | bash
 ```
 
-This is a standard per-command prefix — it applies only to that single command and does not persist in your session. Organizations can disable this entirely with `allow_bypass: false` in policy. Legacy `TIRITH=0` is also honored for compatibility.
+This is a standard per-command prefix — it applies only to that single command and does not persist in your session. Organizations can disable this entirely with `allow_bypass: false` in policy.
 
 ---
 

@@ -63,7 +63,7 @@ Behavioral notes
 - Severity overrides influence action mapping (e.g., CRITICAL → Block)
 
 Bypass
-- GATEKEEPER=0 is recognized by the CLI; legacy TIRITH=0 also works
+- GATEKEEPER=0 is recognized by the CLI
 
 ## Shell Hooks
 

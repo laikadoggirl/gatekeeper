@@ -29,10 +29,10 @@ pub struct Policy {
     /// Fail mode: "open" (default) or "closed".
     pub fail_mode: FailMode,
 
-    /// Allow TIRITH=0 bypass in interactive mode.
+    /// Allow GATEKEEPER=0 bypass in interactive mode.
     pub allow_bypass_env: bool,
 
-    /// Allow TIRITH=0 bypass in non-interactive mode.
+    /// Allow GATEKEEPER=0 bypass in non-interactive mode.
     pub allow_bypass_env_noninteractive: bool,
 
     /// Paranoia tier (1-4).
