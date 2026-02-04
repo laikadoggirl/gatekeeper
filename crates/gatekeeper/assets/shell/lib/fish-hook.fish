@@ -26,18 +26,22 @@ function _gatekeeper_check_command
     # Detect leading bypass env assignment for fish-incompatible syntax
     set -l bypass 0
     set -l stripped $cmd
-    if string match -r '^(GATEKEEPER|TIRITH)=0(\s+|$)' -- $cmd
+    if string match -r '^(GATEKEEPER|TIRITH)=0(\s+|$)' -- -- $cmd
         set bypass 1
-        set stripped (string replace -r '^(GATEKEEPER|TIRITH)=0\s*' '' -- $cmd)
+        set stripped (string replace -r '^(GATEKEEPER|TIRITH)=0\s*' '' -- -- $cmd)
         set stripped (string trim -l -- $stripped)
     end
 
     # Run gatekeeper check. Binary prints warnings/blocks directly to stderr.
     if test $bypass -eq 1
-        env GATEKEEPER=0 gatekeeper check --shell fish -- "$stripped" >/dev/null 2>&1
-    else
-        gatekeeper check --shell fish -- "$cmd"
+        # Bypass: skip checker entirely, execute stripped command
+        commandline -r "$stripped"
+        commandline -f execute
+        return
     end
+
+    # Run gatekeeper check. Binary prints warnings/blocks directly to stderr.
+    gatekeeper check --shell fish -- "$cmd"
     set -l rc $status
 
     if test $rc -eq 1
@@ -47,9 +51,6 @@ function _gatekeeper_check_command
     else
         # Allow (0) or Warn (2): execute normally
         # Warn message already printed to stderr by the binary
-        if test $bypass -eq 1
-            commandline -r "$stripped"
-        end
         commandline -f execute
     end
 end
