@@ -26,9 +26,9 @@ function _gatekeeper_check_command
     # Detect leading bypass env assignment for fish-incompatible syntax
     set -l bypass 0
     set -l stripped $cmd
-    if string match -er '^(GATEKEEPER|TIRITH)=0(\s+|$)' -- $cmd
+    if string match -r '^(GATEKEEPER|TIRITH)=0(\s+|$)' -- $cmd
         set bypass 1
-        set stripped (string replace -er '^(GATEKEEPER|TIRITH)=0\s*' '' -- $cmd)
+        set stripped (string replace -r '^(GATEKEEPER|TIRITH)=0\s*' '' -- $cmd)
         set stripped (string trim -l -- $stripped)
     end
 
@@ -36,7 +36,7 @@ function _gatekeeper_check_command
     if test $bypass -eq 1
         # Bypass: execute stripped command directly via fish
         set -lx GATEKEEPER 0
-        commandline -r "$stripped"
+        commandline -r -- "$stripped"
         commandline -f execute
         return
     end
