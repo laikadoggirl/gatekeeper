@@ -105,7 +105,7 @@ pub fn write_human(verdict: &Verdict, mut w: impl Write) -> std::io::Result<()> 
     if verdict.action == Action::Block {
         writeln!(
             w,
-            "  Bypass: prefix your command with TIRITH=0 (applies to that command only)"
+            "  Bypass: prefix your command with GATEKEEPER=0 (applies to that command only)"
         )?;
     }
 
@@ -246,7 +246,7 @@ fn write_human_pretty(verdict: &Verdict) -> std::io::Result<()> {
         let hint = Style::new().fg_color(Some(Color::Ansi(AnsiColor::Yellow)));
         writeln!(
             out,
-            "  {hint}Bypass: prefix your command with TIRITH=0 (applies to that command only){reset}"
+            "  {hint}Bypass: prefix your command with GATEKEEPER=0 (applies to that command only){reset}"
         )?;
     }
 
@@ -309,7 +309,7 @@ fn write_human_no_color(verdict: &Verdict, mut w: impl Write) -> std::io::Result
     if verdict.action == Action::Block {
         writeln!(
             w,
-            "  Bypass: prefix your command with TIRITH=0 (applies to that command only)"
+            "  Bypass: prefix your command with GATEKEEPER=0 (applies to that command only)"
         )?;
     }
 

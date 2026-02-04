@@ -276,11 +276,11 @@ fn user_policy_path() -> Option<PathBuf> {
     find_policy_in_dir(&base.config_dir().join("gatekeeper")).or_else(|| find_policy_in_dir(&base.config_dir().join("tirith")))
 }
 
-/// Get data directory (gatekeeper, with legacy tirith fallback).
+/// Get data directory (gatekeeper). Legacy tirith data is not used for new writes.
 pub fn data_dir() -> Option<PathBuf> {
     let base = etcetera::choose_base_strategy().ok()?;
     let gate = base.data_dir().join("gatekeeper");
-    if gate.exists() { Some(gate) } else { Some(base.data_dir().join("tirith")) }
+    Some(gate)
 }
 
 /// Get config directory (gatekeeper, with legacy tirith fallback).
