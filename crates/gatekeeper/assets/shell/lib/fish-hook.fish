@@ -29,11 +29,12 @@ function _gatekeeper_check_command
     if string match -r '^(GATEKEEPER|TIRITH)=0(\s+|$)' -- $cmd
         set bypass 1
         set stripped (string replace -r '^(GATEKEEPER|TIRITH)=0\s*' '' -- $cmd)
+        set stripped (string trim -l -- $stripped)
     end
 
     # Run gatekeeper check. Binary prints warnings/blocks directly to stderr.
     if test $bypass -eq 1
-        env GATEKEEPER=0 gatekeeper check --shell fish -- "$stripped"
+        env GATEKEEPER=0 gatekeeper check --shell fish -- "$stripped" >/dev/null 2>&1
     else
         gatekeeper check --shell fish -- "$cmd"
     end
@@ -73,6 +74,7 @@ function _gatekeeper_check_paste
     # Allow: insert pasted content
     commandline -i -- "$pasted"
 end
+
 
 function fish_user_key_bindings
     # Call original user key bindings if they existed
