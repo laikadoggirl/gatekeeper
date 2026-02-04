@@ -47,4 +47,4 @@
 
 ## Bypass Mechanism
 
-gatekeeper supports `GATEKEEPER=0` (legacy `TIRITH=0`) for commands that must run despite findings. Bypasses are logged to the audit trail with `bypass_requested: true`.
+gatekeeper supports `GATEKEEPER=0` for commands that must run despite findings. Bypasses are logged to the audit trail with `bypass_requested: true`.

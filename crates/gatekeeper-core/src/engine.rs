@@ -36,7 +36,7 @@ pub fn analyze(ctx: &AnalysisContext) -> Verdict {
 
     // Tier 0: Check bypass flag
     let tier0_start = Instant::now();
-    let bypass_requested = std::env::var("TIRITH").ok().as_deref() == Some("0");
+    let bypass_requested = std::env::var("GATEKEEPER").ok().as_deref() == Some("0");
     let tier0_ms = tier0_start.elapsed().as_secs_f64() * 1000.0;
 
     // Tier 1: Fast scan (no I/O)

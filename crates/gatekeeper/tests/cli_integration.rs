@@ -6,7 +6,7 @@ use std::process::Command;
 fn gatekeeper() -> Command {
     let mut cmd = Command::new(env!("CARGO_BIN_EXE_gatekeeper"));
     // Clear bypass env
-    cmd.env_remove("TIRITH");
+    cmd.env_remove("GATEKEEPER");
     cmd
 }
 
@@ -300,7 +300,7 @@ fn tier3_reached_for_curl() {
 #[test]
 fn bypass_in_interactive_mode() {
     let out = gatekeeper()
-        .env("TIRITH", "0")
+        .env("GATEKEEPER", "0")
         .args([
             "check",
             "--json",
