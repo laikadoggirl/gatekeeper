@@ -34,9 +34,12 @@ function _gatekeeper_check_command
 
     # Run gatekeeper check. Binary prints warnings/blocks directly to stderr.
     if test $bypass -eq 1
-        # Bypass: skip checker entirely, execute stripped command
-        commandline -r -- "$stripped"
-        commandline -f execute
+        # Bypass: run stripped command without gatekeeper and without echoing buffer
+        set -lx GATEKEEPER 0
+        history add -- "$stripped"
+        commandline -r ""
+        commandline -f repaint
+        eval -- $stripped
         return
     end
 
