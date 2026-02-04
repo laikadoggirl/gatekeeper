@@ -1,5 +1,5 @@
 [package]
-name = "tirith-fuzz"
+name = "gatekeeper-fuzz"
 version = "0.0.0"
 publish = false
 edition = "2021"
@@ -9,7 +9,7 @@ cargo-fuzz = true
 
 [dependencies]
 libfuzzer-sys = "0.4"
-tirith-core = { path = "../crates/tirith-core" }
+gatekeeper-core = { path = "../crates/gatekeeper-core" }
 
 [workspace]
 members = ["."]

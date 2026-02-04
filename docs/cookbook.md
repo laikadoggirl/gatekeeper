@@ -3,7 +3,7 @@
 ## 1. Strict Organization (Fail Closed, No Bypass)
 
 ```yaml
-# .tirith/policy.yaml (repo root)
+# .gatekeeper/policy.yaml (repo root)
 fail_mode: closed
 allow_bypass: false
 severity_overrides:
@@ -16,12 +16,12 @@ All findings block execution. No bypass mechanism. Shortened URLs and plain HTTP
 ## 2. Personal Developer (Defaults + Allowlist)
 
 ```yaml
-# ~/.config/tirith/policy.yaml
+# ~/.config/gatekeeper/policy.yaml
 fail_mode: open
 allow_bypass: true
 ```
 
-With allowlist at `~/.config/tirith/allowlist`:
+With allowlist at `~/.config/gatekeeper/allowlist` (legacy `~/.config/tirith/allowlist` also read):
 ```
 raw.githubusercontent.com
 homebrew.bintray.com
@@ -34,10 +34,10 @@ Default severity mappings. Allowlisted URLs skip analysis.
 
 ```bash
 # In CI pipeline
-tirith check --non-interactive --json -- curl https://example.com/setup.sh | bash
+gatekeeper check --non-interactive --json -- curl https://example.com/setup.sh | bash
 EXIT=$?
 if [ $EXIT -eq 1 ]; then
-  echo "BLOCKED by tirith" >&2
+  echo "BLOCKED by gatekeeper" >&2
   exit 1
 fi
 ```
@@ -47,7 +47,7 @@ Non-interactive mode never prompts. JSON output for machine parsing.
 ## 4. Docker-Focused (Escalate Docker Rules)
 
 ```yaml
-# .tirith/policy.yaml
+# .gatekeeper/policy.yaml
 severity_overrides:
   docker_untrusted_registry: CRITICAL
   docker_tag_latest: HIGH
@@ -58,7 +58,7 @@ All Docker-related findings are escalated. Other rules use default severity.
 ## 5. Learning Mode (All Low Severity)
 
 ```yaml
-# ~/.config/tirith/policy.yaml
+# ~/.config/gatekeeper/policy.yaml
 fail_mode: open
 allow_bypass: true
 severity_overrides:

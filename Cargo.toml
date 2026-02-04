@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/tirith-core", "crates/tirith"]
+members = ["crates/gatekeeper-core", "crates/gatekeeper"]
 resolver = "2"
 
 [workspace.package]
@@ -9,7 +9,7 @@ license = "AGPL-3.0-only"
 rust-version = "1.83"
 
 [workspace.dependencies]
-tirith-core = { version = "0.1.4", path = "crates/tirith-core" }
+gatekeeper-core = { version = "0.1.4", path = "crates/gatekeeper-core" }
 clap = { version = "4", features = ["derive"] }
 url = "2"
 regex = "1"

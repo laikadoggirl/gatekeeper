@@ -15,7 +15,7 @@
         version = cargoToml.workspace.package.version;
       in {
         packages.default = pkgs.rustPlatform.buildRustPackage {
-          pname = "tirith";
+          pname = "gatekeeper";
           inherit version;
 
           # Filter out target/, openclaw/ while keeping default excludes (.git, result)
@@ -36,7 +36,7 @@
           };
 
           # Build only the CLI binary
-          cargoBuildFlags = [ "-p" "tirith" ];
+          cargoBuildFlags = [ "-p" "gatekeeper" ];
 
           # Skip tests - CLI integration tests require real shell environments
           doCheck = false;
@@ -50,13 +50,13 @@
 
           meta = with pkgs.lib; {
             description = "Terminal security tool";
-            homepage = "https://github.com/sheeki03/tirith";
+            homepage = "https://github.com/sheeki03/gatekeeper";
             license = licenses.agpl3Only;
             maintainers = [];
           };
         };
 
-        # Enable `nix run github:sheeki03/tirith`
+        # Enable `nix run github:sheeki03/gatekeeper`
         apps.default = flake-utils.lib.mkApp {
           drv = self.packages.${system}.default;
         };

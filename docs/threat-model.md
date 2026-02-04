@@ -32,19 +32,19 @@
 
 ## Explicit Non-Goals
 
-- **Runtime sandboxing**: tirith does not sandbox or contain executed commands
-- **Network monitoring**: tirith does not inspect network traffic after command execution
-- **Malware detection**: tirith analyzes command structure, not payload content (except via `run`)
-- **Privileged attacker defense**: a root/admin user can bypass tirith trivially
-- **Anti-debugging**: tirith does not resist analysis or reverse engineering
+- **Runtime sandboxing**: gatekeeper does not sandbox or contain executed commands
+- **Network monitoring**: gatekeeper does not inspect network traffic after command execution
+- **Malware detection**: gatekeeper analyzes command structure, not payload content (except via `run`)
+- **Privileged attacker defense**: a root/admin user can bypass gatekeeper trivially
+- **Anti-debugging**: gatekeeper does not resist analysis or reverse engineering
 
 ## Trust Boundaries
 
-1. **Shell hook to tirith binary**: the hook passes the command string; tirith trusts the hook to provide the actual command
-2. **tirith binary to analysis engine**: the binary trusts the core library; no sandboxing between components
-3. **Policy files**: tirith trusts YAML policy files found on disk (user-level and org-level)
+1. **Shell hook to gatekeeper binary**: the hook passes the command string; gatekeeper trusts the hook to provide the actual command
+2. **gatekeeper binary to analysis engine**: the binary trusts the core library; no sandboxing between components
+3. **Policy files**: gatekeeper trusts YAML policy files found on disk (user-level and org-level)
 4. **Audit log**: append-only with file locking; does not prevent deletion by a local attacker
 
 ## Bypass Mechanism
 
-tirith supports `TIRITH_BYPASS=1` for commands that must run despite findings. Bypasses are logged to the audit trail with `bypass_requested: true`.
+gatekeeper supports `GATEKEEPER=0` (legacy `TIRITH=0`) for commands that must run despite findings. Bypasses are logged to the audit trail with `bypass_requested: true`.

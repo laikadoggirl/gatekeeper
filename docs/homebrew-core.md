@@ -17,10 +17,10 @@ The homebrew-core formula differs from our tap:
 
 ## Submission Process
 
-1. Ensure tirith meets notability criteria
+1. Ensure gatekeeper meets notability criteria
 2. Fork homebrew/homebrew-core
-3. Create formula at `Formula/t/tirith.rb`
-4. Submit PR with description of what tirith does
+3. Create formula at `Formula/g/gatekeeper.rb`
+4. Submit PR with description of what gatekeeper does
 5. Address reviewer feedback
 
 ## Links

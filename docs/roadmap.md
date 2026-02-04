@@ -18,17 +18,17 @@ These items are candidates for future development. Priority and scope may change
 - Check certificate transparency logs for suspicious domains
 - DNS-based threat intelligence lookups
 
-### `tirith scan` CI mode
+### `gatekeeper scan` CI mode
 - Scan a file or directory for URLs and analyze them
 - Exit code reflects highest severity found
 - SARIF output for GitHub Code Scanning integration
 
-### `tirith policy validate`
+### `gatekeeper policy validate`
 - Validate policy YAML syntax and semantics
 - Check for conflicting allowlist/blocklist entries
 - Warn about deprecated or unknown fields
 
-### `tirith explain --rule <id>`
+### `gatekeeper explain --rule <id>`
 - Show detailed rationale for a specific rule
 - Include examples of what it catches and why
 - Link to relevant threat documentation

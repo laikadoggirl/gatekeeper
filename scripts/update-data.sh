@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Update vendored data files for tirith.
+# Update vendored data files for gatekeeper.
 # Run from the repository root.
 set -euo pipefail
 

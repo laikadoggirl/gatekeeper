@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in tirith, please report it responsibly.
+If you discover a security vulnerability in gatekeeper, please report it responsibly.
 
 **Preferred:** [GitHub Security Advisory](../../security/advisories/new) — creates a private channel between you and the maintainers.
 
@@ -30,29 +30,29 @@ We will coordinate disclosure timing with you. We won't publish details until a 
 **In scope** — these are security vulnerabilities:
 
 - **Detection bypass**: A command or URL that should trigger a rule but doesn't (false negative in a security-critical path)
-- **Shell injection via hooks**: Tirith's shell hooks introducing command injection vectors
+- **Shell injection via hooks**: Gatekeeper's shell hooks introducing command injection vectors
 - **Audit log tampering**: Ability to suppress or forge audit log entries
 - **Policy bypass**: Circumventing blocklist/allowlist enforcement
-- **Information disclosure**: Tirith leaking sensitive data beyond the local audit log
+- **Information disclosure**: Gatekeeper leaking sensitive data beyond the local audit log
 
 **Not in scope**:
 
 - False positives (non-malicious commands flagged) — file a regular bug report
 - Detection of novel attack techniques not covered by existing rules — file a feature request
-- Issues requiring local root/admin access — tirith does not defend against privileged local attackers
+- Issues requiring local root/admin access — gatekeeper does not defend against privileged local attackers
 
 ## Data handling
 
-Tirith processes commands and pasted text **entirely locally**. During `check` and `paste`:
+Gatekeeper processes commands and pasted text **entirely locally**. During `check` and `paste`:
 
 - **No network calls** are made
 - **No data leaves your machine**
 - Analysis results are written to a local JSONL audit log only
 - Full command text is redacted in logs (first 80 chars, truncated)
 
-The audit log lives at `~/.local/share/tirith/audit.jsonl` (or platform equivalent). Disable with `TIRITH_LOG=0`.
+The audit log lives at `~/.local/share/gatekeeper/audit.jsonl` (legacy tirith path supported). Disable with `GATEKEEPER_LOG=0` (legacy `TIRITH_LOG=0` works).
 
-Tirith has no telemetry, no analytics, no crash reporting, no phone-home behavior.
+Gatekeeper has no telemetry, no analytics, no crash reporting, no phone-home behavior.
 
 ## Reproducible builds
 
@@ -63,10 +63,10 @@ Release artifacts are built via GitHub Actions with:
 
 Verify a release:
 ```bash
-cosign verify-blob --certificate-identity-regexp 'github.com/sheeki03/tirith' \
+cosign verify-blob --certificate-identity-regexp 'github.com/sheeki03/gatekeeper' \
   --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
-  --bundle tirith-*.cosign.bundle \
-  tirith-*.tar.gz
+  --bundle gatekeeper-*.cosign.bundle \
+  gatekeeper-*.tar.gz
 ```
 
 ## Supported versions

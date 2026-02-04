@@ -2,15 +2,15 @@
 
 ## Setup
 
-1. Install tirith:
+1. Install gatekeeper:
    ```sh
-   cargo install --path crates/tirith
+   cargo install --path crates/gatekeeper
    ```
 
 2. Activate in your shell:
    ```sh
    # Add to your shell config (~/.zshrc, ~/.bashrc, etc.)
-   eval "$(tirith init)"
+   eval "$(gatekeeper init)"
    ```
 
 3. Restart your shell or source the config.
@@ -18,7 +18,7 @@
 ## Verify installation
 
 ```sh
-tirith doctor
+gatekeeper doctor
 ```
 
 Confirm:
@@ -43,7 +43,7 @@ ls -la
 
 ## Daily use
 
-Use tirith as your normal shell for at least a week. Pay attention to:
+Use gatekeeper as your normal shell for at least a week. Pay attention to:
 
 - **False positives**: Legitimate commands being flagged
 - **False negatives**: Suspicious commands not being flagged
@@ -54,7 +54,7 @@ Use tirith as your normal shell for at least a week. Pay attention to:
 
 ```sh
 # View recent entries
-tail -5 ~/.local/share/tirith/log.jsonl | python3 -m json.tool
+tail -5 ~/.local/share/gatekeeper/log.jsonl | python3 -m json.tool
 ```
 
 ## Customize policy
@@ -62,20 +62,20 @@ tail -5 ~/.local/share/tirith/log.jsonl | python3 -m json.tool
 If you encounter false positives, add URLs to your allowlist:
 
 ```sh
-echo "example.com" >> ~/.config/tirith/allowlist
+echo "example.com" >> ~/.config/gatekeeper/allowlist
 ```
 
 Or adjust severity in policy:
 
 ```yaml
-# ~/.config/tirith/policy.yaml
+# ~/.config/gatekeeper/policy.yaml
 severity_overrides:
   shortened_url: LOW
 ```
 
 ## Report issues
 
-1. Run `tirith doctor` and save the output
+1. Run `gatekeeper doctor` and save the output
 2. Note the command that caused the issue (redact sensitive parts)
 3. File an issue using the dogfood report template
 

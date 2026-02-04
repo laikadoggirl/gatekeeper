@@ -1,6 +1,6 @@
 # Golden Test Fixtures
 
-TOML files defining expected behavior for tirith rules.
+TOML files defining expected behavior for gatekeeper rules.
 
 ## Format
 

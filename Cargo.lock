@@ -483,6 +483,51 @@ dependencies = [
 ]
 
 [[package]]
+name = "gatekeeper"
+version = "0.1.4"
+dependencies = [
+ "chrono",
+ "clap",
+ "clap_complete",
+ "clap_mangen",
+ "gatekeeper-core",
+ "home",
+ "is-terminal",
+ "serde",
+ "serde_json",
+ "uuid",
+]
+
+[[package]]
+name = "gatekeeper-core"
+version = "0.1.4"
+dependencies = [
+ "anstream",
+ "anstyle",
+ "base64",
+ "chrono",
+ "criterion",
+ "etcetera",
+ "fs2",
+ "home",
+ "is-terminal",
+ "once_cell",
+ "percent-encoding",
+ "regex",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "sha2",
+ "tempfile",
+ "thiserror",
+ "toml",
+ "unicode-normalization",
+ "unicode-script",
+ "url",
+]
+
+[[package]]
 name = "generic-array"
 version = "0.14.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1524,49 +1569,6 @@ name = "tinyvec_macros"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1f3ccbac311fea05f86f61904b462b55fb3df8837a366dfc601a0161d0532f20"
-
-[[package]]
-name = "tirith"
-version = "0.1.4"
-dependencies = [
- "chrono",
- "clap",
- "clap_complete",
- "clap_mangen",
- "home",
- "is-terminal",
- "serde",
- "serde_json",
- "tirith-core",
- "uuid",
-]
-
-[[package]]
-name = "tirith-core"
-version = "0.1.4"
-dependencies = [
- "base64",
- "chrono",
- "criterion",
- "etcetera",
- "fs2",
- "home",
- "is-terminal",
- "once_cell",
- "percent-encoding",
- "regex",
- "reqwest",
- "serde",
- "serde_json",
- "serde_yaml",
- "sha2",
- "tempfile",
- "thiserror",
- "toml",
- "unicode-normalization",
- "unicode-script",
- "url",
-]
 
 [[package]]
 name = "tokio"
